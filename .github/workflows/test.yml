@@ -1,12 +1,20 @@
 name: Test Action
 on:
   workflow_dispatch:
+    inputs:
+      anio_nacimiento:
+        description: Año de nacimiento
+        required: true
+        default: "1990"
 jobs:
   prueba:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Ejecutar Action
+      - name: Calcular edad
+        id: calcular
         uses: ./
         with:
-          nombre: GitHub Actions
+          anio_nacimiento: ${{ inputs.anio_nacimiento }}
+      - name: Mostrar resultado
+        run: echo "Edad calculada ${{ steps.calcular.outputs.edad }}"
